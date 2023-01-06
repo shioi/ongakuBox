@@ -1,0 +1,12 @@
+<%- include ('./partials/head.ejs') %>
+
+    <body>
+        <%-include ('./partials/navigation.ejs')%>
+            <h2>Commit your new changes</h2>
+            <form action="/commit" method="POST" enctype="multipart/form-data">
+                <input type="file" name="xml">
+                <button>Commit</button>
+            </form>
+    </body>
+
+    </html>

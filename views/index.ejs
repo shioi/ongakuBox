@@ -1,0 +1,29 @@
+<%- include ('./partials/head.ejs') %>
+
+    <body>
+
+        <%-include ('./partials/navigation.ejs')%>
+            <!-- This is blogs content starting-->
+            <div class="blogs-content">
+                <h2>All Scores</h2>
+
+                <% if (sheets.length> 0) { %>
+                    <% sheets.forEach(sheet=> { %>
+                        <div class="main-content">
+                            <a href="/sheets/<%= sheet.id%>">
+                                <h3>
+                                    <%=sheet.title%>
+                                </h3>
+                                <p>
+                                    <%= sheet.name%>
+                                </p>
+                                <% }) %>
+                            </a>
+                            <% } else { %>
+                                <p id="no-blog">No sheets Uploaded!</p>
+                                <%}%>
+                        </div>
+            </div>
+    </body>
+
+    </html>

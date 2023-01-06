@@ -1,0 +1,102 @@
+<%- include ('./partials/head.ejs') %>
+
+    <body>
+        <script src="../musicRender.js"></script>
+        <script src="../opensheetmusicdisplay.min.js"></script>
+        <h1>Composer: <%=sheet.username%>
+        </h1>
+        <h2>Music Title: <%=sheet.title%>
+        </h2>
+
+        <h3>Current Version</h3>
+        <textarea style="height:300px;width:500px;border:1px solid #4e4e4e;font:16px Arial, Serif;overflow:auto;"
+            class="detail-data">
+        </textarea>
+
+        <a href="#" class="commit" data-doc="<%=sheet._id %>">Upload</a>
+        <button onclick="renderSheet()">Print to sheet</button>
+        <div id="osmdContainer" />
+        <h3>Old Versions</h3>
+        <div class="old-versions">
+        </div>
+
+        <!----------->
+        <script>
+            const endpoint = "/getdata/<%= sheet.id%>"
+            fetch(endpoint, {
+                method: 'GET'
+            })
+                .then((response) => response.text())
+                .then((data) => document.querySelector(".detail-data").innerHTML = data);
+
+            const totalVersionEndPoint = "/gettotalversion/<%= sheet.id%>"
+            fetch(totalVersionEndPoint, {
+                method: "GET"
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    const totalVr = parseInt(data.versions);
+                    console.log(totalVr);
+                    for (let i = 0; i < totalVr; i++) {
+                        divele = document.createElement('a');
+                        divele.classList.add("version-class");
+                        divele.innerHTML = "Version" + (i + 1);
+                        divele.setAttribute("data-doc", "/version/V" + totalVr);
+                        divele.setAttribute("href", "#");
+                        document.querySelector(".old-versions").appendChild(divele);
+                        br = document.createElement('br')
+                        document.querySelector(".old-versions").appendChild(br);
+                    }
+                })
+
+            const versionbt = document.getElementsByClassName('version-class');
+            for (var i = 0; i < versionbt.length; i++) {
+                versionbt[i].addEventListener('click', (e) => {
+                    const endpoint = '/versionFile/<%= sheet.id%>' + commit.dataset.doc
+                    console.log(endpoint)
+                    fetch(endpoint, {
+                        method: 'GET'
+                    })
+                        .then((response) => response.text())
+                        .then((data) => document.querySelector(".detail-data").innerHTML = data);
+                })
+            }
+
+
+            const commit = document.querySelector('a.commit');
+            commit.addEventListener('click', (e) => {
+                const endpoint = '/commit/' + commit.dataset.doc;
+                fetch(endpoint, {
+                    method: 'GET'
+                })
+                    .then((response) => response.json())
+                    .then((data) => window.location.href = data.redirect)
+                    .catch(err => console.log(err))
+            })
+
+            function renderSheet() {
+                value = `<%=sheet.id%>`
+                const endpoint = "/getdata/" + value
+                fetch(endpoint, {
+                    method: 'GET'
+                })
+                    .then((response) => response.text())
+                    .then((data) => {
+                        var osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay("osmdContainer");
+                        osmd.setOptions({
+                            backend: "svg",
+                            drawTitle: true,
+                        });
+                        osmd
+                            .load(data)
+                            .then(
+                                function () {
+                                    osmd.render();
+                                }
+                            );
+                    })
+            }
+        </script>
+    </body>
+
+    </html>

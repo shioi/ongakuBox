@@ -1,0 +1,63 @@
+body {
+    background-color: rgb(34, 34, 34);
+    color: rgb(120, 115, 115);
+    font-family: "Libre Franklin", "Helvetica Neue", helvetica, arial, sans-serif;
+}
+
+a {
+    display: block;
+    padding: 8px;
+    text-decoration: none;
+    color: rgb(85, 187, 241);
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: rgb(120, 115, 115);
+}
+
+li a:hover {
+    color: rgb(245, 245, 245);
+}
+
+#box-title {
+    color: white;
+    font-weight: bold;
+}
+
+input {
+    width: 50%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+label {
+    font-size: 20px;
+}
+
+button {
+    background-color: #ffffff;
+    border: none;
+    color: white;
+    color: black;
+    padding: 15px 32px;
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+}
